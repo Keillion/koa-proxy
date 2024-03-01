@@ -16,7 +16,7 @@ app
     let reqTxt = JSON.stringify(ctx.request.body);
     let resTxt = '';
     try{
-      console.log(`${ctx.method} ${ctx.url} ${reqTxt}`);
+      //console.log(`${ctx.method} ${ctx.url} ${reqTxt}`);
       const fetchParams = { method: ctx.method } as any;
       if(!['GET','OPTION'].includes(ctx.method)){
         fetchParams.body = JSON.stringify(ctx.request.body);
