@@ -13,14 +13,21 @@ app.use(cors());
 app
   .use(koaBody())
   .use(async(ctx, next)=>{
-    console.log(`${ctx.method} ${ctx.url} ${JSON.stringify(ctx.request.body)}`);
-    const fetchParams = { method: ctx.method } as any;
-    if(!['GET','OPTION'].includes(ctx.method)){
-      fetchParams.body = JSON.stringify(ctx.request.body);
-    } 
-    const res = await fetch(`${proxyUrl}${ctx.url}`, fetchParams);
-    ctx.status = res.status;
-    ctx.body = await res.text();
+    let resTxt = '';
+    try{
+      console.log(`${ctx.method} ${ctx.url} ${JSON.stringify(ctx.request.body)}`);
+      const fetchParams = { method: ctx.method } as any;
+      if(!['GET','OPTION'].includes(ctx.method)){
+        fetchParams.body = JSON.stringify(ctx.request.body);
+      } 
+      const res = await fetch(`${proxyUrl}${ctx.url}`, fetchParams);
+      const txt = await res.text();
+      ctx.status = res.status;
+      ctx.body = txt;
+    }catch(ex){
+      console.error(ex);
+    }
+    console.log(`${ctx.method} ${ctx.url} \nReqBody: ${JSON.stringify(ctx.request.body)} \nResBody: ${resTxt}`);
     //ctx.status = 200;
     //ctx.body = 'ok';
   })
