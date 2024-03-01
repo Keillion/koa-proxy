@@ -13,9 +13,10 @@ app.use(cors());
 app
   .use(koaBody())
   .use(async(ctx, next)=>{
+    let reqTxt = JSON.stringify(ctx.request.body);
     let resTxt = '';
     try{
-      console.log(`${ctx.method} ${ctx.url} ${JSON.stringify(ctx.request.body)}`);
+      console.log(`${ctx.method} ${ctx.url} ${reqTxt}`);
       const fetchParams = { method: ctx.method } as any;
       if(!['GET','OPTION'].includes(ctx.method)){
         fetchParams.body = JSON.stringify(ctx.request.body);
@@ -27,7 +28,7 @@ app
     }catch(ex){
       console.error(ex);
     }
-    console.log(`${ctx.method} ${ctx.url} \nReqBody: ${JSON.stringify(ctx.request.body)} \nResBody: ${resTxt}`);
+    console.log(`${ctx.method} ${ctx.url} \nreqTxt: ${reqTxt} \nresTxt: ${resTxt}`);
     //ctx.status = 200;
     //ctx.body = 'ok';
   })
