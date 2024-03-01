@@ -22,9 +22,9 @@ app
         fetchParams.body = JSON.stringify(ctx.request.body);
       } 
       const res = await fetch(`${proxyUrl}${ctx.url}`, fetchParams);
-      const txt = await res.text();
+      resTxt = await res.text();
       ctx.status = res.status;
-      ctx.body = txt;
+      ctx.body = resTxt;
     }catch(ex){
       console.error(ex);
     }
